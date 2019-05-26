@@ -16,10 +16,6 @@ class Bittrex_API:
     def get_ETH_wallet(self):
         return self.__ETH_wallet
 
-    # Gets the server time
-    def get_server_time(self):
-        return(requests.get(self.__base_API + "v1/time"))
-
     # Returns the last ETH price in USDT
     def get_ETH_price(self):
         ETH_price = requests.get(

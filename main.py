@@ -1,8 +1,9 @@
 import keys  # To access our API keys
-import time
+import time  # For sleep
 import sys  # To include stuff from a folder
-# For all the exchange objects
+
 from wallet import Wallet  # Wallet class
+from util import current_time_ms  # Utility functions
 
 # Exchange API includes
 from exchange_API.binance import Binance_API
@@ -17,10 +18,9 @@ def main():
 
     Bittrex = Bittrex_API(keys.BITTREX_ETH_WALLET, keys.BITTREX_USDT_WALLET,
                           keys.BITTREX_API_KEY, keys.BITTREX_SECRET_KEY)
-
     print(Binance.get_ETH_price())
     print(Bittrex.get_ETH_price())
-    time.sleep(1)
+    print(current_time_ms())
 
 
 main()
