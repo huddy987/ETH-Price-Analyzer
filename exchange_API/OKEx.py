@@ -12,6 +12,9 @@ class OKEx_API:
         self.__private_key = private_key
         self.__base_API = "https://www.okex.com/api/"
 
+        self.ETH_bal = 1
+        self.USDT_bal = 600
+
     # Returns the ETH wallet address
     def get_ETH_wallet(self):
         return self.__ETH_wallet
@@ -22,4 +25,7 @@ class OKEx_API:
         ETH_price = requests.get(
             self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
         ETH_price = ETH_price.json()
-        return ETH_price["last"]
+        try:
+            return float(ETH_price["last"])
+        except:
+            return -1

@@ -12,6 +12,9 @@ class Binance_API:
         self.__private_key = private_key
         self.__base_API = "https://api.binance.com/api/"
 
+        self.ETH_bal = 1
+        self.USDT_bal = 600
+
     # Returns the ETH wallet address
     def get_ETH_wallet(self):
         return self.__ETH_wallet
@@ -21,4 +24,7 @@ class Binance_API:
         ETH_price = requests.get(
             self.__base_API + "v1/ticker/price?symbol=ETHUSDT")
         ETH_price = ETH_price.json()
-        return ETH_price["price"]
+        try:
+            return float(ETH_price["price"])
+        except:
+            return -1

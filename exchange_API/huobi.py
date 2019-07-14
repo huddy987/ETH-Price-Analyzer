@@ -12,6 +12,9 @@ class Huobi_API:
         self.__private_key = private_key
         self.__base_API = "https://api.huobi.pro/"
 
+        self.ETH_bal = 1
+        self.USDT_bal = 600
+
     # Returns the ETH wallet address
     def get_ETH_wallet(self):
         return self.__ETH_wallet
@@ -22,4 +25,7 @@ class Huobi_API:
         ETH_price = requests.get(
             self.__base_API + "market/trade?symbol=ethusdt")
         ETH_price = ETH_price.json()
-        return ETH_price["tick"]["data"][0]["price"]
+        try:
+            return float(ETH_price["tick"]["data"][0]["price"])
+        except:
+            return -1
