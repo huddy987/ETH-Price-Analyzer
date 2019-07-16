@@ -1,18 +1,9 @@
+# General utility functions
+
 import time  # For current_time_ms
 
-# Exchange API classes
-from exchange_API.binance import Binance_API
-from exchange_API.bittrex import Bittrex_API
-from exchange_API.OKEx import OKEx_API
-from exchange_API.huobi import Huobi_API
-from exchange_API.poloniex import Poloniex_API
-from exchange_API.bitforex import Bitforex_API
-from exchange_API.kucoin import KuCoin_API
-from exchange_API.bitfinex import Bitfinex_API
-from exchange_API.tradeio import TradeIO_API
 
-
-def current_time_ms():
+def get_current_time_ms():
     return int(round(time.time() * 1000))
 
 
@@ -43,3 +34,47 @@ def get_average_ETH_price(exchanges):
         sum += exchanges[exchange].get_ETH_price()
 
     return sum / len(exchanges)
+
+
+def get_min_ETH_price(exchanges):
+    # Default to Binance as lowest (will be overridden)
+    lowest_exchange_name = "Binance"
+    lowest_price = exchanges["Binance"].get_ETH_price()
+
+    for exchange in exchanges:
+        next_price = exchanges[exchange].get_ETH_price()
+        if(next_price == -1):
+            while(next_price == -1):
+                print("Timeout for 5 minutes. Exchange API limit exceeded!")
+                print(exchange)
+                time.sleep(300)
+                next_price = exchanges[exchange].get_ETH_price()
+
+        # Get the lowest price
+        if(next_price < lowest_price):
+            lowest_exchange_name = exchange
+            lowest_price = exchanges[lowest_exchange_name].get_ETH_price()
+
+    return lowest_price, lowest_exchange_name
+
+
+def get_max_ETH_price(exchanges):
+    # Default to Binance as highest (will be overridden)
+    highest_exchange_name = "Binance"
+    highest_price = exchanges["Binance"].get_ETH_price()
+
+    for exchange in exchanges:
+        next_price = exchanges[exchange].get_ETH_price()
+        if(next_price == -1):
+            while(next_price == -1):
+                print("Timeout for 5 minutes. Exchange API limit exceeded!")
+                print(exchange)
+                time.sleep(300)
+                next_price = exchanges[exchange].get_ETH_price()
+
+        # Get the highest price
+        if(next_price > highest_price):
+            highest_exchange_name = exchange
+            highest_price = exchanges[highest_exchange_name].get_ETH_price()
+
+    return highest_price, highest_exchange_name
