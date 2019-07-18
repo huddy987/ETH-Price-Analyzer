@@ -1,11 +1,14 @@
 # General utility functions
 
 import time  # For current_time_ms
+import datetime # For datetime.datetime.now()
 
 
 def get_current_time_ms():
     return int(round(time.time() * 1000))
 
+def get_current_date_time():
+    return datetime.datetime.now()
 
 def get_total_ETH(exchanges):
     # Returns the total ETH balance across all accounts
@@ -27,54 +30,62 @@ def get_total_USDT(exchanges):
     return sum
 
 
-def get_average_ETH_price(exchanges):
+def get_ETH_dict(exchanges):
+    # Create a dictionary where the keys are the exchange names and the values are the ETH prices
+    ETH_dict = dict()
+    for exchange in exchanges:
+        ETH_dict[exchange] = exchanges[exchange].get_ETH_price()
+    return ETH_dict
+
+
+def get_average_ETH_price(ETH_dict):
     # Returns the average eth price across all exchanges
     sum = 0
-    for exchange in exchanges:
-        sum += exchanges[exchange].get_ETH_price()
+    for exchange in ETH_dict:
+        sum += ETH_dict[exchange]
 
-    return sum / len(exchanges)
+    return sum / len(ETH_dict)
 
 
-def get_min_ETH_price(exchanges):
+def get_min_ETH_price(ETH_dict):
     # Default to Binance as lowest (will be overridden)
     lowest_exchange_name = "Binance"
-    lowest_price = exchanges["Binance"].get_ETH_price()
+    lowest_price = ETH_dict["Binance"]
 
-    for exchange in exchanges:
-        next_price = exchanges[exchange].get_ETH_price()
+    for exchange in ETH_dict:
+        next_price = ETH_dict[exchange]
         if(next_price == -1):
             while(next_price == -1):
                 print("Timeout for 5 minutes. Exchange API limit exceeded!")
                 print(exchange)
                 time.sleep(300)
-                next_price = exchanges[exchange].get_ETH_price()
+                next_price = ETH_dict[exchange]
 
         # Get the lowest price
         if(next_price < lowest_price):
             lowest_exchange_name = exchange
-            lowest_price = exchanges[lowest_exchange_name].get_ETH_price()
+            lowest_price = next_price
 
     return lowest_price, lowest_exchange_name
 
 
-def get_max_ETH_price(exchanges):
+def get_max_ETH_price(ETH_dict):
     # Default to Binance as highest (will be overridden)
     highest_exchange_name = "Binance"
-    highest_price = exchanges["Binance"].get_ETH_price()
+    highest_price = ETH_dict["Binance"]
 
-    for exchange in exchanges:
-        next_price = exchanges[exchange].get_ETH_price()
+    for exchange in ETH_dict:
+        next_price = ETH_dict[exchange]
         if(next_price == -1):
             while(next_price == -1):
                 print("Timeout for 5 minutes. Exchange API limit exceeded!")
                 print(exchange)
                 time.sleep(300)
-                next_price = exchanges[exchange].get_ETH_price()
+                next_price = ETH_dict[exchange]
 
         # Get the highest price
         if(next_price > highest_price):
             highest_exchange_name = exchange
-            highest_price = exchanges[highest_exchange_name].get_ETH_price()
+            highest_price = next_price
 
     return highest_price, highest_exchange_name

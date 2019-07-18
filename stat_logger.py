@@ -4,46 +4,48 @@ import util  # Project-related utility functions
 import exchange_manager  # Exchange class manager
 import threading
 
-min_price = 0
-min_exchange = ""
-max_price = 0
-max_exchange = ""
-avg_price = 0
-
-exchanges = exchange_manager.initialize_exchange_dict()
-
-
 def min_thread_call():
-    global min_price, min_exchange, exchanges
-    min_price, min_exchange = util.get_min_ETH_price(exchanges)
+    global min_price, min_exchange, exchanges, ETH_dict
+    min_price, min_exchange = util.get_min_ETH_price(ETH_dict)
 
 
 def max_thread_call():
-    global max_price, max_exchange, exchanges
-    max_price, max_exchange = util.get_max_ETH_price(exchanges)
+    global max_price, max_exchange, exchanges, ETH_dict
+    max_price, max_exchange = util.get_max_ETH_price(ETH_dict)
 
 
 def avg_thread_call():
-    global avg_price, exchanges
-    avg_price = util.get_average_ETH_price(exchanges)
+    global avg_price, exchanges, ETH_dict
+    avg_price = util.get_average_ETH_price(ETH_dict)
 
 
 if __name__ == "__main__":
+    min_price = 0
+    min_exchange = ""
+    max_price = 0
+    max_exchange = ""
+    avg_price = 0
+
+    exchanges = exchange_manager.initialize_exchange_dict()
+
+    ETH_dict = dict()
 
     f = open("exchange_stats.csv", "w+")
 
     # Write out the file header
-    f.write("Time")
+    f.write("Time (ms), Date&Time")
     for exchange in exchanges:
         f.write(",")
         f.write(exchange)
     f.write(",Min Price,Min Exchange,Max Price, Max Exchange,Average\n")
 
     while(True):
+        ETH_dict = util.get_ETH_dict(exchanges)
         f.write(str(util.get_current_time_ms()))
-        for exchange in exchanges:
+        f.write(util.get_current_date_time())
+        for exchange in ETH_dict:
             f.write(",")
-            f.write(str(exchanges[exchange].get_ETH_price()))
+            f.write(str(ETH_dict[exchange]))
         f.write(",")
 
         min_thread = threading.Thread(

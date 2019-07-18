@@ -9,10 +9,11 @@ if __name__ == "__main__":
     exchanges = exchange_manager.initialize_exchange_dict()
 
     while(True):
-        lowest_price, lowest_exchange_name = util.get_min_ETH_price(exchanges)
-        highest_price, highest_exchange_name = util.get_max_ETH_price(exchanges)
+        ETH_dict = util.get_ETH_dict(exchanges)
+        lowest_price, lowest_exchange_name = util.get_min_ETH_price(ETH_dict)
+        highest_price, highest_exchange_name = util.get_max_ETH_price(ETH_dict)
 
-        average_price = util.get_average_ETH_price(exchanges)
+        average_price = util.get_average_ETH_price(ETH_dict)
 
         if(debug):
             print("DEBUG stats:")
