@@ -33,7 +33,7 @@ if __name__ == "__main__":
     f = open("exchange_stats.csv", "w+")
 
     # Write out the file header
-    f.write("Time (ms), Date&Time")
+    f.write("Time (ms),Date&Time")
     for exchange in exchanges:
         f.write(",")
         f.write(exchange)
@@ -42,6 +42,7 @@ if __name__ == "__main__":
     while(True):
         ETH_dict = util.get_ETH_dict(exchanges)
         f.write(str(util.get_current_time_ms()))
+        f.write(",")
         f.write(util.get_current_date_time())
         for exchange in ETH_dict:
             f.write(",")

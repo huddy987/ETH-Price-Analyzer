@@ -8,7 +8,7 @@ def get_current_time_ms():
     return int(round(time.time() * 1000))
 
 def get_current_date_time():
-    return datetime.datetime.now()
+    return str(datetime.datetime.now())
 
 def get_total_ETH(exchanges):
     # Returns the total ETH balance across all accounts
