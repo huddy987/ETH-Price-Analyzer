@@ -10,6 +10,14 @@ def get_current_time_ms():
 def get_current_date_time():
     return str(datetime.datetime.now())
 
+def get_formatted_date():
+    currentDT = datetime.datetime.now()
+    return str(currentDT.year) + "-" + str(currentDT.month) + "-" + str(currentDT.day)
+
+def get_current_day():
+    currentDT = datetime.datetime.now()
+    return currentDT.day    # Leave as int so we can do comparisons
+
 def get_total_ETH(exchanges):
     # Returns the total ETH balance across all accounts
     # exchanges is the master exchanges dictionary
