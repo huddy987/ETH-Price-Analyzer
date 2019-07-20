@@ -43,6 +43,13 @@ def get_ETH_dict(exchanges):
     ETH_dict = dict()
     for exchange in exchanges:
         ETH_dict[exchange] = exchanges[exchange].get_ETH_price()
+
+        if(ETH_dict[exchange] == -1):   # Constantly retry exchanges returning null values
+            while(ETH_dict[exchange] == -1):
+                ETH_dict[exchange] = exchanges[exchange].get_ETH_price()
+                print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
+                time.sleep(300)
+
     return ETH_dict
 
 
@@ -62,12 +69,6 @@ def get_min_ETH_price(ETH_dict):
 
     for exchange in ETH_dict:
         next_price = ETH_dict[exchange]
-        if(next_price == -1):
-            while(next_price == -1):
-                print("Timeout for 5 minutes. Exchange API limit exceeded!")
-                print(exchange)
-                time.sleep(300)
-                next_price = ETH_dict[exchange]
 
         # Get the lowest price
         if(next_price < lowest_price):
@@ -84,12 +85,6 @@ def get_max_ETH_price(ETH_dict):
 
     for exchange in ETH_dict:
         next_price = ETH_dict[exchange]
-        if(next_price == -1):
-            while(next_price == -1):
-                print("Timeout for 5 minutes. Exchange API limit exceeded!")
-                print(exchange)
-                time.sleep(300)
-                next_price = ETH_dict[exchange]
 
         # Get the highest price
         if(next_price > highest_price):
