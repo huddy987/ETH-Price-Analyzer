@@ -1,3 +1,4 @@
 keys.py
 __pycache__
 exchange_API/__pycache__/
+exchange_stats.csv
