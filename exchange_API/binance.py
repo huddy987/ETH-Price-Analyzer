@@ -28,3 +28,23 @@ class Binance_API:
             return float(ETH_price["price"])
         except:
             return -1
+
+    # Returns the ETH bid in USDT
+    def get_ETH_bid(self):
+        ETH_price = requests.get(
+            self.__base_API + "v1/ticker/bookTicker?symbol=ETHUSDT")
+        ETH_price = ETH_price.json()
+        try:
+            return float(ETH_price["bidPrice"])
+        except:
+            return -1
+
+    # Returns the ETH ask in USDT
+    def get_ETH_ask(self):
+        ETH_price = requests.get(
+            self.__base_API + "v1/ticker/bookTicker?symbol=ETHUSDT")
+        ETH_price = ETH_price.json()
+        try:
+            return float(ETH_price["askPrice"])
+        except:
+            return -1

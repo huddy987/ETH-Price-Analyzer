@@ -21,7 +21,7 @@ OKEX_SECRET_KEY = 0
 
 
 # HUOBI
-# https://HUOBIapi.github.io/docs/v1/en/#access-urls
+# https://github.com/huobiapi
 HUOBI_USDT_WALLET = 0
 HUOBI_ETH_WALLET = 0
 HUOBI_API_KEY = 0

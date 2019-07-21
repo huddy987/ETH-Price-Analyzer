@@ -29,3 +29,23 @@ class KuCoin_API:
             return float(ETH_price["data"]["last"])
         except:
             return -1
+
+    # Returns the ETH bid in USDT
+    def get_ETH_bid(self):
+        ETH_price = requests.get(
+            self.__base_API + "api/v1/market/stats?symbol=ETH-USDT")
+        ETH_price = ETH_price.json()
+        try:
+            return float(ETH_price["data"]["buy"])
+        except:
+            return -1
+
+    # Returns the ETH ask in USDT
+    def get_ETH_ask(self):
+        ETH_price = requests.get(
+            self.__base_API + "api/v1/market/stats?symbol=ETH-USDT")
+        ETH_price = ETH_price.json()
+        try:
+            return float(ETH_price["data"]["sell"])
+        except:
+            return -1
