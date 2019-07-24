@@ -21,30 +21,30 @@ class Bittrex_API:
 
     # Returns the last ETH price in USDT
     def get_ETH_price(self):
-        ETH_price = requests.get(
-            self.__base_API + "public/getticker?market=USDT-ETH")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "public/getticker?market=USDT-ETH")
+            ETH_price = ETH_price.json()
             return float(ETH_price["result"]["Last"])
         except:
             return -1
 
     # Returns the ETH bid in USDT
     def get_ETH_bid(self):
-        ETH_price = requests.get(
-            self.__base_API + "public/getticker?market=USDT-ETH")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "public/getticker?market=USDT-ETH")
+            ETH_price = ETH_price.json()
             return float(ETH_price["result"]["Bid"])
         except:
             return -1
 
     # Returns the ETH ask in USDT
     def get_ETH_ask(self):
-        ETH_price = requests.get(
-            self.__base_API + "public/getticker?market=USDT-ETH")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "public/getticker?market=USDT-ETH")
+            ETH_price = ETH_price.json()
             return float(ETH_price["result"]["Ask"])
         except:
             return -1

@@ -46,9 +46,9 @@ def get_ETH_dict(exchanges):
 
         if(ETH_dict[exchange] == -1):   # Constantly retry exchanges returning null values
             while(ETH_dict[exchange] == -1):
-                ETH_dict[exchange] = exchanges[exchange].get_ETH_price()
                 print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
                 time.sleep(300)
+                ETH_dict[exchange] = exchanges[exchange].get_ETH_price()
 
     return ETH_dict
 

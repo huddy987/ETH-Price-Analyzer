@@ -22,30 +22,30 @@ class Bitfinex_API:
 
     # Returns the last ETH price in USDT
     def get_ETH_price(self):
-        ETH_price = requests.get(
-            self.__base_API_auth + "v1/pubticker/ethusd")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API_auth + "v1/pubticker/ethusd")
+            ETH_price = ETH_price.json()
             return float(ETH_price["last_price"])
         except:
             return -1
 
     # Returns the ETH bid in USDT
     def get_ETH_bid(self):
-        ETH_price = requests.get(
-            self.__base_API_auth + "v1/pubticker/ethusd")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API_auth + "v1/pubticker/ethusd")
+            ETH_price = ETH_price.json()
             return float(ETH_price["bid"])
         except:
             return -1
 
     # Returns the ETH ask in USDT
     def get_ETH_ask(self):
-        ETH_price = requests.get(
-            self.__base_API_auth + "v1/pubticker/ethusd")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API_auth + "v1/pubticker/ethusd")
+            ETH_price = ETH_price.json()
             return float(ETH_price["ask"])
         except:
             return -1

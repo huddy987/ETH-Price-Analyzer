@@ -22,30 +22,30 @@ class Huobi_API:
     # Returns the last ETH price in USDT
     # https://huobiapi.github.io/docs/spot/v1/en/#get-the-last-trade
     def get_ETH_price(self):
-        ETH_price = requests.get(
-            self.__base_API + "market/trade?symbol=ethusdt")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "market/trade?symbol=ethusdt")
+            ETH_price = ETH_price.json()
             return float(ETH_price["tick"]["data"][0]["price"])
         except:
             return -1
 
     # Returns the ETH bid in USDT
     def get_ETH_bid(self):
-        ETH_price = requests.get(
-            self.__base_API + "market/detail/merged?symbol=ethusdt")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "market/detail/merged?symbol=ethusdt")
+            ETH_price = ETH_price.json()
             return float(ETH_price["data"]["bid"][0])   # bid 1 is amount
         except:
             return -1
 
     # Returns the ETH ask in USDT
     def get_ETH_ask(self):
-        ETH_price = requests.get(
-            self.__base_API + "market/detail/merged?symbol=ethusdt")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "market/detail/merged?symbol=ethusdt")
+            ETH_price = ETH_price.json()
             return float(ETH_price["data"]["ask"][0]) #ask 1 is amount
         except:
             return -1

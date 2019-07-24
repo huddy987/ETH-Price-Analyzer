@@ -20,30 +20,30 @@ class TradeIO_API:
 
     # Returns the last ETH price in USDT
     def get_ETH_price(self):
-        ETH_price = requests.get(
-            self.__base_API + "api/v1/ticker/eth_usdt")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "api/v1/ticker/eth_usdt")
+            ETH_price = ETH_price.json()
             return float(ETH_price["ticker"]["lastPrice"])
         except:
             return -1
 
     # Returns the ETH bid in USDT
     def get_ETH_bid(self):
-        ETH_price = requests.get(
-            self.__base_API + "api/v1/ticker/eth_usdt")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "api/v1/ticker/eth_usdt")
+            ETH_price = ETH_price.json()
             return float(ETH_price["USDT_ETH"]["bidPrice"])
         except:
             return -1
 
     # Returns the ETH ask in USDT
     def get_ETH_ask(self):
-        ETH_price = requests.get(
-            self.__base_API + "api/v1/ticker/eth_usdt")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "api/v1/ticker/eth_usdt")
+            ETH_price = ETH_price.json()
             return float(ETH_price["USDT_ETH"]["askPrice"])
         except:
             return -1

@@ -22,30 +22,30 @@ class OKEx_API:
     # Returns the last ETH price in USDT
     # https://www.okex.com/docs/en/#spot-all
     def get_ETH_price(self):
-        ETH_price = requests.get(
-            self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
+            ETH_price = ETH_price.json()
             return float(ETH_price["last"])
         except:
             return -1
 
     # Returns the ETH bid in USDT
     def get_ETH_bid(self):
-        ETH_price = requests.get(
-            self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
+            ETH_price = ETH_price.json()
             return float(ETH_price["best_bid"])
         except:
             return -1
 
     # Returns the ETH ask in USDT
     def get_ETH_ask(self):
-        ETH_price = requests.get(
-            self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
-        ETH_price = ETH_price.json()
         try:
+            ETH_price = requests.get(
+                self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
+            ETH_price = ETH_price.json()
             return float(ETH_price["best_ask"])
         except:
             return -1
