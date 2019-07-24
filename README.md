@@ -6,5 +6,7 @@ improving it!
 
 # That's nice, How do I run this?
 Firstly, run "pip install -r requirements.txt"
+
 Next, run "python stat_logger.py"
+
 And that's it!
