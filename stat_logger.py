@@ -1,22 +1,8 @@
 import time  # For sleep
+import os # to create folders
 
 import util  # Project-related utility functions
 import exchange_manager  # Exchange class manager
-import threading
-
-def min_thread_call():
-    global min_price, min_exchange, exchanges, ETH_dict
-    min_price, min_exchange = util.get_min_ETH_price(ETH_dict)
-
-
-def max_thread_call():
-    global max_price, max_exchange, exchanges, ETH_dict
-    max_price, max_exchange = util.get_max_ETH_price(ETH_dict)
-
-
-def avg_thread_call():
-    global avg_price, exchanges, ETH_dict
-    avg_price = util.get_average_ETH_price(ETH_dict)
 
 def write_file_header(file, exchanges):
     file.write("Time (ms),Date&Time")
@@ -25,43 +11,52 @@ def write_file_header(file, exchanges):
         file.write(exchange)
     file.write(",Min Price,Min Exchange,Max Price,Max Exchange,Average\n")
 
+# Handles all the processes for starting writing to a new file
+def start_new_file(filename, exchanges):
+        f = open(filename, "w+")
+        write_file_header(f, exchanges)
+        f.close()
+
+# Creates a folder at the specified path if it doesn't already exist
+def create_folder(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+# Returns true if file exists, else returns false
+def file_exists(path):
+    if os.path.exists(path):
+        return True
+    else:
+        return False
+
 
 if __name__ == "__main__":
-    min_price = 0
-    min_exchange = ""
-    max_price = 0
-    max_exchange = ""
-    avg_price = 0
-    output_file = util.get_formatted_date() + "_stats.csv"
+    log_folder = "./logs/"
+    output_file = log_folder + util.get_formatted_date() + "_stats.csv"
     current_day = util.get_current_day()
 
     # Exchange API related variables
     exchanges = exchange_manager.initialize_exchange_dict()
     ETH_dict = dict()
 
-    f = open(output_file, "w+")
+    # Create logs folder if it doesn't already exist
+    create_folder("./logs/")
 
-    # Write out the file header
-    write_file_header(f, exchanges)
+    # If the file does not exist, create the file and write the header.
+    if(not file_exists(output_file)):
+        start_new_file(output_file, exchanges)
 
     while(True):
-
         # Open a new file every new day start
         if(current_day < util.get_current_day()):
             # Current day is a new day now
             current_day = util.get_current_day()
 
-            # Close the old file
-            f.close()
-
-            print("test")
-
             # Open the new file
-            output_file = util.get_formatted_date() + "_stats.csv"
-            f = open(output_file, "w+")
+            output_file = log_folder + util.get_formatted_date() + "_stats.csv"
+            start_new_file(output_file, exchanges)
 
-            # Write out the file header
-            write_file_header(f, exchanges)
+        f = open(output_file, "a+")
 
         # API calls
         ETH_dict = util.get_ETH_dict(exchanges)
@@ -76,22 +71,9 @@ if __name__ == "__main__":
         f.write(",")
 
         # Calculate statistics
-        min_thread = threading.Thread(
-            target=min_thread_call, args=())
-        max_thread = threading.Thread(
-            target=max_thread_call, args=())
-        avg_thread = threading.Thread(
-            target=avg_thread_call, args=())
-
-        # Threading operations
-        min_thread.start()
-        max_thread.start()
-        avg_thread.start()
-
-        min_thread.join()
-        max_thread.join()
-        avg_thread.join()
-
+        min_price, min_exchange = util.get_min_ETH_price(ETH_dict)
+        max_price, max_exchange = util.get_max_ETH_price(ETH_dict)
+        avg_price = util.get_average_ETH_price(ETH_dict)
 
         # Write calculated statistics to the file
         f.write(str(min_price))
@@ -107,4 +89,5 @@ if __name__ == "__main__":
 
         # Sleep for a while
         print("Done an entry, sleep for 30s")
+        f.close()
         time.sleep(30)  # sleep for 10 seconds
