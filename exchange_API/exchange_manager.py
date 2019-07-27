@@ -1,4 +1,5 @@
 import keys  # To access our API keys
+import time # For time.sleep
 
 # Exchange API classes
 from exchange_API.binance import Binance_API
