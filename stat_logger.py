@@ -2,7 +2,7 @@ import time  # For sleep
 import os # to create folders
 
 import util  # Project-related utility functions
-import exchange_manager  # Exchange class manager
+import exchange_API.exchange_manager as exchange_manager  # Exchange class manager
 
 debug = True
 
@@ -76,9 +76,9 @@ if __name__ == "__main__":
         f = open(output_file, "a+")
 
         # API calls
-        ETH_price_dict = util.get_ETH_price_dict(exchanges)
-        ETH_bid_dict = util.get_ETH_bid_dict(exchanges)
-        ETH_ask_dict = util.get_ETH_ask_dict(exchanges)
+        ETH_price_dict = exchange_manager.get_ETH_price_dict(exchanges)
+        ETH_bid_dict = exchange_manager.get_ETH_bid_dict(exchanges)
+        ETH_ask_dict = exchange_manager.get_ETH_ask_dict(exchanges)
 
         # Write the time to the file
         f.write(str(util.get_current_time_ms()))

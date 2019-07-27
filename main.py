@@ -1,7 +1,7 @@
 import time  # For sleep
 
 import util  # Project-related utility functions
-import exchange_manager  # Exchange class manager
+import exchange_API.exchange_manager as exchange_manager # Exchange class manager
 
 debug = True
 
@@ -9,15 +9,9 @@ if __name__ == "__main__":
     exchanges = exchange_manager.initialize_exchange_dict()
 
     while(True):
-        ETH_dict = util.get_ETH_price_dict(exchanges)
-        bid_dict = util.get_ETH_bid_dict(exchanges)
-        ask_dict = util.get_ETH_ask_dict(exchanges)
-
-        for exchange in bid_dict:
-            print(bid_dict[exchange])
-
-        for exchange in ask_dict:
-            print(ask_dict[exchange])
+        ETH_dict = exchange_manager.get_ETH_price_dict(exchanges)
+        bid_dict = exchange_manager.get_ETH_bid_dict(exchanges)
+        ask_dict = exchange_manager.get_ETH_ask_dict(exchanges)
 
         lowest_price, lowest_exchange_name = util.get_min_ETH_price(ETH_dict)
         highest_price, highest_exchange_name = util.get_max_ETH_price(ETH_dict)

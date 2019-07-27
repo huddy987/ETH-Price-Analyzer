@@ -18,67 +18,6 @@ def get_current_day():
     currentDT = datetime.datetime.now()
     return currentDT.day    # Leave as int so we can do comparisons
 
-def get_total_ETH(exchanges):
-    # Returns the total ETH balance across all accounts
-    # exchanges is the master exchanges dictionary
-    sum = 0
-    for exchange in exchanges:
-        sum += exchanges[exchange].ETH_bal
-
-    return sum
-
-
-def get_total_USDT(exchanges):
-    # Returns the total USDT balance across all accounts
-    # exchanges is the master exchanges dictionary
-    sum = 0
-    for exchange in exchanges:
-        sum += exchanges[exchange].USDT_bal
-
-    return sum
-
-
-def get_ETH_price_dict(exchanges):
-    # Create a dictionary where the keys are the exchange names and the values are the ETH prices
-    ETH_price_dict = dict()
-    for exchange in exchanges:
-        ETH_price_dict[exchange] = exchanges[exchange].get_ETH_price()
-
-        if(ETH_price_dict[exchange] == -1):   # Constantly retry exchanges returning null values
-            while(ETH_price_dict[exchange] == -1):
-                print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
-                time.sleep(300)
-                ETH_price_dict[exchange] = exchanges[exchange].get_ETH_price()
-
-    return ETH_price_dict
-
-def get_ETH_bid_dict(exchanges):
-    # Create a dictionary where the keys are the exchange names and the values are the ETH bids
-    ETH_bid_dict = dict()
-    for exchange in exchanges:
-        ETH_bid_dict[exchange] = exchanges[exchange].get_ETH_bid()
-
-        if(ETH_bid_dict[exchange] == -1):   # Constantly retry exchanges returning null values
-            while(ETH_bid_dict[exchange] == -1):
-                print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
-                time.sleep(300)
-                ETH_bid_dict[exchange] = exchanges[exchange].get_ETH_bid()
-
-    return ETH_bid_dict
-
-def get_ETH_ask_dict(exchanges):
-    ETH_ask_dict = dict()
-    for exchange in exchanges:
-        ETH_ask_dict[exchange] = exchanges[exchange].get_ETH_ask()
-
-        if(ETH_ask_dict[exchange] == -1):   # Constantly retry exchanges returning null values
-            while(ETH_ask_dict[exchange] == -1):
-                print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
-                time.sleep(300)
-                ETH_ask_dict[exchange] = exchanges[exchange].get_ETH_ask()
-
-    return ETH_ask_dict
-
 def get_average_ETH_price(ETH_dict):
     # Returns the average eth price across all exchanges
     sum = 0
