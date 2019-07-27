@@ -9,10 +9,18 @@ if __name__ == "__main__":
     exchanges = exchange_manager.initialize_exchange_dict()
 
     while(True):
-        ETH_dict = util.get_ETH_dict(exchanges)
+        ETH_dict = util.get_ETH_price_dict(exchanges)
+        bid_dict = util.get_ETH_bid_dict(exchanges)
+        ask_dict = util.get_ETH_ask_dict(exchanges)
+
+        for exchange in bid_dict:
+            print(bid_dict[exchange])
+
+        for exchange in ask_dict:
+            print(ask_dict[exchange])
+
         lowest_price, lowest_exchange_name = util.get_min_ETH_price(ETH_dict)
         highest_price, highest_exchange_name = util.get_max_ETH_price(ETH_dict)
-
         average_price = util.get_average_ETH_price(ETH_dict)
 
         if(debug):

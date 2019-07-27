@@ -4,12 +4,25 @@ import os # to create folders
 import util  # Project-related utility functions
 import exchange_manager  # Exchange class manager
 
+debug = True
+
+# Writes the file header
 def write_file_header(file, exchanges):
     file.write("Time (ms),Date&Time")
     for exchange in exchanges:
         file.write(",")
         file.write(exchange)
-    file.write(",Min Price,Min Exchange,Max Price,Max Exchange,Average\n")
+        file.write(" Price(USD)")
+    file.write(",Min Price(USD),Min Exchange,Max Price(USD),Max Exchange,Average Price(USD),Biggest Spread(%)")
+    for exchange in exchanges:
+        file.write(",")
+        file.write(exchange)
+        file.write(" Bid(USD)")
+    for exchange in exchanges:
+        file.write(",")
+        file.write(exchange)
+        file.write(" Ask(USD)")
+    file.write("\n")
 
 # Handles all the processes for starting writing to a new file
 def start_new_file(filename, exchanges):
@@ -29,6 +42,11 @@ def file_exists(path):
     else:
         return False
 
+# Print out the values for a given dict
+def print_values(file, dict):
+    for key in dict:
+        f.write(",")
+        f.write(str(dict[key]))
 
 if __name__ == "__main__":
     log_folder = "./logs/"
@@ -37,10 +55,9 @@ if __name__ == "__main__":
 
     # Exchange API related variables
     exchanges = exchange_manager.initialize_exchange_dict()
-    ETH_dict = dict()
 
     # Create logs folder if it doesn't already exist
-    create_folder("./logs/")
+    create_folder(log_folder)
 
     # If the file does not exist, create the file and write the header.
     if(not file_exists(output_file)):
@@ -59,21 +76,24 @@ if __name__ == "__main__":
         f = open(output_file, "a+")
 
         # API calls
-        ETH_dict = util.get_ETH_dict(exchanges)
+        ETH_price_dict = util.get_ETH_price_dict(exchanges)
+        ETH_bid_dict = util.get_ETH_bid_dict(exchanges)
+        ETH_ask_dict = util.get_ETH_ask_dict(exchanges)
 
-        # Write prices to file
+        # Write the time to the file
         f.write(str(util.get_current_time_ms()))
         f.write(",")
         f.write(util.get_current_date_time())
-        for exchange in ETH_dict:
-            f.write(",")
-            f.write(str(ETH_dict[exchange]))
+
+        # Write prices to file
+        print_values(f, ETH_price_dict)
         f.write(",")
 
         # Calculate statistics
-        min_price, min_exchange = util.get_min_ETH_price(ETH_dict)
-        max_price, max_exchange = util.get_max_ETH_price(ETH_dict)
-        avg_price = util.get_average_ETH_price(ETH_dict)
+        min_price, min_exchange = util.get_min_ETH_price(ETH_price_dict)
+        max_price, max_exchange = util.get_max_ETH_price(ETH_price_dict)
+        avg_price = util.get_average_ETH_price(ETH_price_dict)
+        biggest_percent_spread = util.get_biggest_percent_spread(min_price, max_price)
 
         # Write calculated statistics to the file
         f.write(str(min_price))
@@ -85,9 +105,21 @@ if __name__ == "__main__":
         f.write(max_exchange)
         f.write(",")
         f.write(str(avg_price))
+        f.write(",")
+        f.write(str(biggest_percent_spread))
+
+        # Print the bids and asks to the csv file
+        print_values(f, ETH_bid_dict)
+        print_values(f, ETH_ask_dict)
+
         f.write("\n")
 
         # Sleep for a while
-        print("Done an entry, sleep for 30s")
         f.close()
-        time.sleep(30)  # sleep for 10 seconds
+        if(debug):
+            # Sleep 60s or else I go over rate limit (2 devices running the script at once)
+            print("Debugging...sleep for 60s")
+            time.sleep(60)
+        else:
+            print("Done an entry, sleep for 30s")
+            time.sleep(30)

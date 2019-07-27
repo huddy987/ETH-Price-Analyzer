@@ -38,20 +38,46 @@ def get_total_USDT(exchanges):
     return sum
 
 
-def get_ETH_dict(exchanges):
+def get_ETH_price_dict(exchanges):
     # Create a dictionary where the keys are the exchange names and the values are the ETH prices
-    ETH_dict = dict()
+    ETH_price_dict = dict()
     for exchange in exchanges:
-        ETH_dict[exchange] = exchanges[exchange].get_ETH_price()
+        ETH_price_dict[exchange] = exchanges[exchange].get_ETH_price()
 
-        if(ETH_dict[exchange] == -1):   # Constantly retry exchanges returning null values
-            while(ETH_dict[exchange] == -1):
+        if(ETH_price_dict[exchange] == -1):   # Constantly retry exchanges returning null values
+            while(ETH_price_dict[exchange] == -1):
                 print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
                 time.sleep(300)
                 ETH_dict[exchange] = exchanges[exchange].get_ETH_price()
 
-    return ETH_dict
+    return ETH_price_dict
 
+def get_ETH_bid_dict(exchanges):
+    # Create a dictionary where the keys are the exchange names and the values are the ETH bids
+    ETH_bid_dict = dict()
+    for exchange in exchanges:
+        ETH_bid_dict[exchange] = exchanges[exchange].get_ETH_bid()
+
+        if(ETH_bid_dict[exchange] == -1):   # Constantly retry exchanges returning null values
+            while(ETH_bid_dict[exchange] == -1):
+                print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
+                time.sleep(300)
+                ETH_dict[exchange] = exchanges[exchange].get_ETH_bid()
+
+    return ETH_bid_dict
+
+def get_ETH_ask_dict(exchanges):
+    ETH_ask_dict = dict()
+    for exchange in exchanges:
+        ETH_ask_dict[exchange] = exchanges[exchange].get_ETH_ask()
+
+        if(ETH_ask_dict[exchange] == -1):   # Constantly retry exchanges returning null values
+            while(ETH_ask_dict[exchange] == -1):
+                print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
+                time.sleep(300)
+                ETH_dict[exchange] = exchanges[exchange].get_ETH_ask()
+
+    return ETH_ask_dict
 
 def get_average_ETH_price(ETH_dict):
     # Returns the average eth price across all exchanges
@@ -92,3 +118,7 @@ def get_max_ETH_price(ETH_dict):
             highest_price = next_price
 
     return highest_price, highest_exchange_name
+
+def get_biggest_percent_spread(lowest_price, highest_price):
+    # Returns the price difference (%)
+    return 100 - ((lowest_price)/(highest_price))*100

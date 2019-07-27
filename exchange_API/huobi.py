@@ -36,7 +36,7 @@ class Huobi_API:
             ETH_price = requests.get(
                 self.__base_API + "market/detail/merged?symbol=ethusdt")
             ETH_price = ETH_price.json()
-            return float(ETH_price["data"]["bid"][0])   # bid 1 is amount
+            return float(ETH_price["tick"]["bid"][0])   # bid 1 is amount
         except:
             return -1
 
@@ -46,6 +46,6 @@ class Huobi_API:
             ETH_price = requests.get(
                 self.__base_API + "market/detail/merged?symbol=ethusdt")
             ETH_price = ETH_price.json()
-            return float(ETH_price["data"]["ask"][0]) #ask 1 is amount
+            return float(ETH_price["tick"]["ask"][0]) # ask 1 is amount
         except:
             return -1
