@@ -48,7 +48,7 @@ def get_ETH_price_dict(exchanges):
             while(ETH_price_dict[exchange] == -1):
                 print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
                 time.sleep(300)
-                ETH_dict[exchange] = exchanges[exchange].get_ETH_price()
+                ETH_price_dict[exchange] = exchanges[exchange].get_ETH_price()
 
     return ETH_price_dict
 
@@ -62,7 +62,7 @@ def get_ETH_bid_dict(exchanges):
             while(ETH_bid_dict[exchange] == -1):
                 print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
                 time.sleep(300)
-                ETH_dict[exchange] = exchanges[exchange].get_ETH_bid()
+                ETH_bid_dict[exchange] = exchanges[exchange].get_ETH_bid()
 
     return ETH_bid_dict
 
@@ -75,7 +75,7 @@ def get_ETH_ask_dict(exchanges):
             while(ETH_ask_dict[exchange] == -1):
                 print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
                 time.sleep(300)
-                ETH_dict[exchange] = exchanges[exchange].get_ETH_ask()
+                ETH_ask_dict[exchange] = exchanges[exchange].get_ETH_ask()
 
     return ETH_ask_dict
 
