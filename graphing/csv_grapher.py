@@ -9,6 +9,9 @@ import datetime # For datetime.datetime for time on the x axis
 # Number of exchanges currently in the csv logger
 exchange_number = 9
 
+# Desired timezone offset from UTC (ms) currently set to MST
+timezone_offset = 21600000
+
 # Returns filename if specified otherwise prints the usage and closes
 def parse_args():
     try:
@@ -40,7 +43,9 @@ def generate_data(filename, row):
 def convert_epoch(timestamps):
     return_array = list()
     for timestamp in timestamps:
-        return_array.append(timestamp/1000)
+        # This is a bit of a hack, but subtract off the ms so we can convert
+        # the timezone from UTC to MST
+        return_array.append((timestamp - timezone_offset)/1000)
     return md.epoch2num(return_array)
 
 # Gets the exchange names from the header
@@ -64,15 +69,18 @@ def get_exchange_names(filename):
 def plot(x, y_array, exchange_names):
     fig, ax1 = plt.subplots()
 
+    fig.canvas.set_window_title('Ethereum Price Graph :D')
+
     # Date/time formatting
     date_fmt = '%d-%m-%y %H:%M:%S'
     date_formatter = md.DateFormatter(date_fmt)
     ax1.xaxis.set_major_formatter(date_formatter)
     ax1.xaxis_date()
 
-    # Axis labels
-    ax1.set_xlabel("Time (UTC)")
+    # Axis labels and titles
+    ax1.set_xlabel("Time (MST)")
     ax1.set_ylabel("Price (USD)")
+    ax1.set_title("Ethereum Price Vs. Time")
 
     # Print all of the y data
     for i,y in enumerate(y_array):
