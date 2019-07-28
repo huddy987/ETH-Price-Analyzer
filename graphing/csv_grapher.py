@@ -64,10 +64,16 @@ def get_exchange_names(filename):
 
     return exchanges
 
-
 # Plots the data
 def plot(x, y_array, exchange_names):
-    fig, ax1 = plt.subplots()
+    # We will store our list of lines in this list
+    lines = list()
+    # We will use this line dict to map thte lines to the legends
+    linedict = dict()
+
+    # Initialize the figure and the plot
+    fig = plt.figure(figsize=(16,9))
+    ax1 = fig.add_subplot(111)
 
     fig.canvas.set_window_title('Ethereum Price Graph :D')
 
@@ -82,19 +88,44 @@ def plot(x, y_array, exchange_names):
     ax1.set_ylabel("Price (USD)")
     ax1.set_title("Ethereum Price Vs. Time")
 
+    colors = ["Red", "Green", "Blue", "Pink", "Purple", "Orange", "Brown", "Grey", "Yellow", "Black"]
     # Print all of the y data
     for i,y in enumerate(y_array):
-        ax1.plot(x, y, label=exchange_names[i])
+        lines.append(ax1.plot(x, y, color=colors[i], label=exchange_names[i]))
 
-    # Set all of the colors
-    colors = ["Red", "Green", "Blue", "Pink", "Purple", "Orange", "Brown", "Grey", "Yellow", "Black"]
-    for i,j in enumerate(ax1.lines):
-        j.set_color(colors[i])
+    # Show the legend
+    legend = plt.legend(loc='lower left')
 
-    plt.legend(loc='lower left')
+    # Map the lines to the appropriate legend
+    for legline, origline in zip(legend.get_lines(), lines):
+        legline.set_picker(5)  # 5 pts tolerance
+        linedict[legline] = origline
+
+    # Bind the onpick event to allow series to be shown/hidden
+    fig.canvas.mpl_connect("pick_event", lambda event: onpick(event, linedict, fig))
 
     plt.show()
 
+# Allows hiding/showing series when the appropriate legend title is selected
+# From https://matplotlib.org/examples/event_handling/legend_picking.html
+def onpick(event, linedict, fig):
+    # on the pick event, find the orig line corresponding to the
+    # legend proxy line, and toggle the visibility
+    legline = event.artist
+    origline = linedict[legline]
+
+    # For each point in the series, toggle the visibility
+    for point in origline:
+        vis = not point.get_visible()
+        point.set_visible(vis)
+
+    # Change the alpha on the line in the legend so we can see what lines
+    # have been toggled
+    if vis:
+        legline.set_alpha(1.0)
+    else:
+        legline.set_alpha(0.2)
+    fig.canvas.draw()
 
 if __name__ == "__main__":
     # Get the filename from sys.argv
