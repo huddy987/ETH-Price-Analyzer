@@ -88,7 +88,7 @@ def plot(x, y_array, exchange_names):
     ax1.set_ylabel("Price (USD)")
     ax1.set_title("Ethereum Price Vs. Time")
 
-    colors = ["Red", "Green", "Blue", "Pink", "Purple", "Orange", "Brown", "Grey", "Yellow", "Black"]
+    colors = ["Red", "Green", "Magenta", "Navy", "Purple", "Orange", "Brown", "Grey", "Yellow", "Black"]
     # Print all of the y data
     for i,y in enumerate(y_array):
         lines.append(ax1.plot(x, y, color=colors[i], label=exchange_names[i]))
