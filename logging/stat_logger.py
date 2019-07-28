@@ -1,10 +1,14 @@
 import sys
-sys.path.append("..") # Adds higher directory to python modules path.
+try: # For local
+    sys.path.append("..") # Adds higher directory to python modules path.
+    import util  # Project-related utility functions
+except: # For Travis CI
+    sys.path.append(".") # Adds higher directory to python modules path.
+    import util  # Project-related utility functions
 
 import time  # For sleep
 import os # to create folders
 
-import util  # Project-related utility functions
 import exchange_API.exchange_manager as exchange_manager  # Exchange class manager
 
 debug = True
