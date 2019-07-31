@@ -1,3 +1,4 @@
+from enum import Enum
 import sys
 try: # For local
     sys.path.append("..") # Adds higher directory to python modules path.
@@ -11,7 +12,20 @@ import os # to create folders
 
 import exchange_API.exchange_manager as exchange_manager  # Exchange class manager
 
-debug = True
+# Mode enum
+class log_mode(Enum):
+    basic = 1 # Only prices, every 30s
+    full = 2 # Prices, bid, and ask every 2m
+
+# Declare the logging type you want to use
+logging_mode = log_mode.full
+
+# Let the user know what type of logging they are currently using
+def print_log_type_message():
+    if(logging_mode == log_mode.basic):
+        print("Starting log collection in basic mode")
+    elif(logging_mode == log_mode.full):
+        print("Starting log collection in full mode")
 
 # Writes the file header
 def write_file_header(file, exchanges):
@@ -21,14 +35,16 @@ def write_file_header(file, exchanges):
         file.write(exchange)
         file.write(" Price(USD)")
     file.write(",Min Price(USD),Min Exchange,Max Price(USD),Max Exchange,Average Price(USD),Biggest Spread(%)")
-    for exchange in exchanges:
-        file.write(",")
-        file.write(exchange)
-        file.write(" Bid(USD)")
-    for exchange in exchanges:
-        file.write(",")
-        file.write(exchange)
-        file.write(" Ask(USD)")
+
+    if(logging_mode == log_mode.full):
+        for exchange in exchanges:
+            file.write(",")
+            file.write(exchange)
+            file.write(" Bid(USD)")
+        for exchange in exchanges:
+            file.write(",")
+            file.write(exchange)
+            file.write(" Ask(USD)")
     file.write("\n")
 
 # Handles all the processes for starting writing to a new file
@@ -60,6 +76,12 @@ if __name__ == "__main__":
     output_file = log_folder + util.get_formatted_date() + "_stats.csv"
     current_day = util.get_current_day()
 
+    ETH_price_dict = dict()
+    ETH_bid_dict = dict()
+    ETH_ask_dict = dict()
+
+    print_log_type_message()
+
     # Exchange API related variables
     exchanges = exchange_manager.initialize_exchange_dict()
 
@@ -84,8 +106,9 @@ if __name__ == "__main__":
 
         # API calls
         ETH_price_dict = exchange_manager.get_ETH_price_dict(exchanges)
-        ETH_bid_dict = exchange_manager.get_ETH_bid_dict(exchanges)
-        ETH_ask_dict = exchange_manager.get_ETH_ask_dict(exchanges)
+        if(logging_mode == log_mode.full):
+            ETH_bid_dict = exchange_manager.get_ETH_bid_dict(exchanges)
+            ETH_ask_dict = exchange_manager.get_ETH_ask_dict(exchanges)
 
         # Write the time to the file
         f.write(str(util.get_current_time_ms()))
@@ -116,17 +139,18 @@ if __name__ == "__main__":
         f.write(str(biggest_percent_spread))
 
         # Print the bids and asks to the csv file
-        print_values(f, ETH_bid_dict)
-        print_values(f, ETH_ask_dict)
+        if(logging_mode == log_mode.full):
+            print_values(f, ETH_bid_dict)
+            print_values(f, ETH_ask_dict)
 
         f.write("\n")
 
         # Sleep for a while
         f.close()
-        if(debug):
-            # Sleep 60s or else I go over rate limit (2 devices running the script at once)
-            print("Debugging...sleep for 60s")
-            time.sleep(60)
-        else:
-            print("Done an entry, sleep for 30s")
+        if(logging_mode == log_mode.basic):
+            # Sleep 30s so we don't go over the rate limit
+            print("Basic logging. Sleep for 30s.")
             time.sleep(30)
+        elif(logging_mode == log_mode.full):
+            print("Full logging. Sleep for 2m.")
+            time.sleep(120)
