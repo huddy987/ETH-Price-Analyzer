@@ -8,7 +8,7 @@ def get_current_time_ms():
     return int(round(time.time() * 1000))
 
 def get_current_date_time():
-    return str(datetime.datetime.now())
+    return str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 def get_formatted_date():
     currentDT = datetime.datetime.now()
