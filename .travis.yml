@@ -8,6 +8,13 @@ install:
 
 script:
   - mv dummy_keys.py keys.py
+<<<<<<< HEAD
   - python main.py
   - python graphing/csv_grapher.py
   - python logging/stat_logger.py
+=======
+  - bash .travistimeout.sh
+
+notifications:
+  email: false
+>>>>>>> origin/master

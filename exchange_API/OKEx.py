@@ -1,6 +1,5 @@
 import requests  # For API requests
 
-
 # https://www.okex.com/docs/en/#README
 
 
@@ -27,7 +26,7 @@ class OKEx_API:
                 self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
             ETH_price = ETH_price.json()
             return float(ETH_price["last"])
-        except:
+        except:             
             return -1
 
     # Returns the ETH bid in USDT
@@ -37,7 +36,7 @@ class OKEx_API:
                 self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
             ETH_price = ETH_price.json()
             return float(ETH_price["best_bid"])
-        except:
+        except:            
             return -1
 
     # Returns the ETH ask in USDT
@@ -47,5 +46,5 @@ class OKEx_API:
                 self.__base_API + "spot/v3/instruments/ETH-USDT/ticker")
             ETH_price = ETH_price.json()
             return float(ETH_price["best_ask"])
-        except:
+        except:           
             return -1

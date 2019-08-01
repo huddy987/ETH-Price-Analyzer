@@ -1,6 +1,5 @@
 import requests  # For API requests
 
-
 # https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md
 
 
@@ -36,7 +35,7 @@ class Binance_API:
                 self.__base_API + "v1/ticker/bookTicker?symbol=ETHUSDT")
             ETH_price = ETH_price.json()
             return float(ETH_price["bidPrice"])
-        except:
+        except:            
             return -1
 
     # Returns the ETH ask in USDT
@@ -46,5 +45,5 @@ class Binance_API:
                 self.__base_API + "v1/ticker/bookTicker?symbol=ETHUSDT")
             ETH_price = ETH_price.json()
             return float(ETH_price["askPrice"])
-        except:
+        except:           
             return -1

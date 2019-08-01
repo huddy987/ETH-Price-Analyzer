@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/huddy987/ETH-Price-Analyzer.svg?branch=master)](https://travis-ci.org/huddy987/ETH-Price-Analyzer)
+
 # What is this?
 ETH-Price Analyzer is currently an Ethereum price logger. By running
 stat_logger.py, every 30 seconds Ethereum prices from 9 exchanges will be

@@ -25,7 +25,7 @@ class TradeIO_API:
                 self.__base_API + "api/v1/ticker/eth_usdt")
             ETH_price = ETH_price.json()
             return float(ETH_price["ticker"]["lastPrice"])
-        except:
+        except:          
             return -1
 
     # Returns the ETH bid in USDT
@@ -35,7 +35,7 @@ class TradeIO_API:
                 self.__base_API + "api/v1/ticker/eth_usdt")
             ETH_price = ETH_price.json()
             return float(ETH_price["ticker"]["bidPrice"])
-        except:
+        except:    
             return -1
 
     # Returns the ETH ask in USDT
@@ -45,5 +45,5 @@ class TradeIO_API:
                 self.__base_API + "api/v1/ticker/eth_usdt")
             ETH_price = ETH_price.json()
             return float(ETH_price["ticker"]["askPrice"])
-        except:
+        except:          
             return -1
