@@ -1,5 +1,6 @@
 import keys  # To access our API keys
-import time # For time.sleep
+import time  # For time.sleep
+import util  # For access to datetime format
 
 # Exchange API classes
 from exchange_API.binance import Binance_API
@@ -82,8 +83,13 @@ def get_ETH_price_dict(exchanges):
     ETH_price_dict = dict()
     for exchange in exchanges:
         ETH_price_dict[exchange] = exchanges[exchange].get_ETH_price()
-
+        
         if(ETH_price_dict[exchange] == -1):   # Constantly retry exchanges returning null values
+            # send to log file
+            date = util.get_current_date_time()
+            error_msg = f"({date}) Error getting {exchange} price\n"
+            error_log(error_msg)
+            
             while(ETH_price_dict[exchange] == -1):
                 print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
                 time.sleep(300)
@@ -98,6 +104,11 @@ def get_ETH_bid_dict(exchanges):
         ETH_bid_dict[exchange] = exchanges[exchange].get_ETH_bid()
 
         if(ETH_bid_dict[exchange] == -1):   # Constantly retry exchanges returning null values
+            # send to log file
+            date = util.get_current_date_time()
+            error_msg = f"({date}) Error getting {exchange} bid price\n"
+            error_log(error_msg)
+            
             while(ETH_bid_dict[exchange] == -1):
                 print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
                 time.sleep(300)
@@ -111,9 +122,21 @@ def get_ETH_ask_dict(exchanges):
         ETH_ask_dict[exchange] = exchanges[exchange].get_ETH_ask()
 
         if(ETH_ask_dict[exchange] == -1):   # Constantly retry exchanges returning null values
+            # send to log file
+            date = util.get_current_date_time()
+            error_msg = f"({date}) Error getting {exchange} ask price\n"
+            error_log(error_msg)
+            
             while(ETH_ask_dict[exchange] == -1):
                 print("Timeout for 5 minutes. Exchange API returned -1. (" + exchange + ")")
                 time.sleep(300)
                 ETH_ask_dict[exchange] = exchanges[exchange].get_ETH_ask()
 
     return ETH_ask_dict
+
+def error_log(error_msg):
+    # handles error messages and writes to a log file
+    f = open("error_log.txt","a+")
+    f.write(error_msg)
+    f.close()
+    
