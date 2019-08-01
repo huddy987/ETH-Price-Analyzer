@@ -18,7 +18,7 @@ if __name__ == "__main__":
         average_price = util.get_average_ETH_price(ETH_dict)
 
         if(debug):
-            print("DEBUG stats:")
+            print("\nDEBUG stats:")
             print("lowest_exchange: " + lowest_exchange_name)
             print("highest_exchange: " + highest_exchange_name)
             print("lowest_price: " + str(lowest_price))
