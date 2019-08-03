@@ -25,7 +25,7 @@ class Bittrex_API:
                 self.__base_API + "public/getticker?market=USDT-ETH")
             ETH_price = ETH_price.json()
             return float(ETH_price["result"]["Last"])
-        except:             
+        except:
             return -1
 
     # Returns the ETH bid in USDT
@@ -35,7 +35,7 @@ class Bittrex_API:
                 self.__base_API + "public/getticker?market=USDT-ETH")
             ETH_price = ETH_price.json()
             return float(ETH_price["result"]["Bid"])
-        except:               
+        except:
             return -1
 
     # Returns the ETH ask in USDT
@@ -45,5 +45,5 @@ class Bittrex_API:
                 self.__base_API + "public/getticker?market=USDT-ETH")
             ETH_price = ETH_price.json()
             return float(ETH_price["result"]["Ask"])
-        except:               
+        except:
             return -1

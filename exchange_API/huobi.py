@@ -26,7 +26,7 @@ class Huobi_API:
                 self.__base_API + "market/trade?symbol=ethusdt")
             ETH_price = ETH_price.json()
             return float(ETH_price["tick"]["data"][0]["price"])
-        except:            
+        except:
             return -1
 
     # Returns the ETH bid in USDT
@@ -36,7 +36,7 @@ class Huobi_API:
                 self.__base_API + "market/detail/merged?symbol=ethusdt")
             ETH_price = ETH_price.json()
             return float(ETH_price["tick"]["bid"][0])   # bid 1 is amount
-        except:            
+        except:
             return -1
 
     # Returns the ETH ask in USDT
@@ -46,5 +46,5 @@ class Huobi_API:
                 self.__base_API + "market/detail/merged?symbol=ethusdt")
             ETH_price = ETH_price.json()
             return float(ETH_price["tick"]["ask"][0]) # ask 1 is amount
-        except:             
+        except:
             return -1

@@ -26,7 +26,7 @@ class KuCoin_API:
                 self.__base_API + "api/v1/market/stats?symbol=ETH-USDT")
             ETH_price = ETH_price.json()
             return float(ETH_price["data"]["last"])
-        except:         
+        except:
             return -1
 
     # Returns the ETH bid in USDT
@@ -36,7 +36,7 @@ class KuCoin_API:
                 self.__base_API + "api/v1/market/stats?symbol=ETH-USDT")
             ETH_price = ETH_price.json()
             return float(ETH_price["data"]["buy"])
-        except:             
+        except:
             return -1
 
     # Returns the ETH ask in USDT
@@ -46,5 +46,5 @@ class KuCoin_API:
                 self.__base_API + "api/v1/market/stats?symbol=ETH-USDT")
             ETH_price = ETH_price.json()
             return float(ETH_price["data"]["sell"])
-        except:           
+        except:
             return -1

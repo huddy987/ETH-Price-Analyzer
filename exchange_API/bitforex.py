@@ -25,7 +25,7 @@ class Bitforex_API:
                 self.__base_API + "v1/market/ticker?symbol=coin-usdt-eth")
             ETH_price = ETH_price.json()
             return float(ETH_price["data"]["last"])
-        except:               
+        except:
             return -1
 
     # Returns the ETH bid in USDT
@@ -35,7 +35,7 @@ class Bitforex_API:
                 self.__base_API + "v1/market/ticker?symbol=coin-usdt-eth")
             ETH_price = ETH_price.json()
             return float(ETH_price["data"]["buy"])
-        except:           
+        except:
             return -1
 
     # Returns the ETH ask in USDT
@@ -45,5 +45,5 @@ class Bitforex_API:
                 self.__base_API + "v1/market/ticker?symbol=coin-usdt-eth")
             ETH_price = ETH_price.json()
             return float(ETH_price["data"]["sell"])
-        except:               
+        except:
             return -1

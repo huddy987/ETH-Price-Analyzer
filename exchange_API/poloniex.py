@@ -25,7 +25,7 @@ class Poloniex_API:
                 self.__base_API + "public?command=returnTicker")
             ETH_price = ETH_price.json()
             return float(ETH_price["USDT_ETH"]["last"])
-        except:            
+        except:
             return -1
 
     # Returns the ETH bid in USDT
@@ -35,7 +35,7 @@ class Poloniex_API:
                 self.__base_API + "public?command=returnTicker")
             ETH_price = ETH_price.json()
             return float(ETH_price["USDT_ETH"]["highestBid"])
-        except:          
+        except:
             return -1
 
     # Returns the ETH ask in USDT
@@ -45,5 +45,5 @@ class Poloniex_API:
                 self.__base_API + "public?command=returnTicker")
             ETH_price = ETH_price.json()
             return float(ETH_price["USDT_ETH"]["lowestAsk"])
-        except:           
+        except:
             return -1

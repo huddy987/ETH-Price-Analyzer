@@ -26,7 +26,7 @@ class Bitfinex_API:
                 self.__base_API_auth + "v1/pubticker/ethusd")
             ETH_price = ETH_price.json()
             return float(ETH_price["last_price"])
-        except:     
+        except:
             return -1
 
     # Returns the ETH bid in USDT
@@ -36,7 +36,7 @@ class Bitfinex_API:
                 self.__base_API_auth + "v1/pubticker/ethusd")
             ETH_price = ETH_price.json()
             return float(ETH_price["bid"])
-        except:    
+        except:
             return -1
 
     # Returns the ETH ask in USDT
@@ -46,5 +46,5 @@ class Bitfinex_API:
                 self.__base_API_auth + "v1/pubticker/ethusd")
             ETH_price = ETH_price.json()
             return float(ETH_price["ask"])
-        except:             
+        except:
             return -1
