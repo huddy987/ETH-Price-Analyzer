@@ -18,7 +18,7 @@ class log_mode(Enum):
     full = 2 # Prices, bid, and ask every 2m
 
 # Declare the logging type you want to use
-logging_mode = log_mode.full
+logging_mode = log_mode.basic
 
 # Let the user know what type of logging they are currently using
 def print_log_type_message():
