@@ -78,7 +78,7 @@ def plot(x, y_array, exchange_names):
     fig.canvas.set_window_title('Ethereum Price Graph :D')
 
     # Date/time formatting
-    date_fmt = '%d-%m-%y %H:%M:%S'
+    date_fmt = '%d-%m-%y %H:%M'
     date_formatter = md.DateFormatter(date_fmt)
     ax1.xaxis.set_major_formatter(date_formatter)
     ax1.xaxis_date()
