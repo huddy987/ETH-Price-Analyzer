@@ -9,6 +9,7 @@ except: # For Travis CI
 
 import time  # For sleep
 import os # to create folders
+import datetime # To check if we have rolled over to a new day
 
 import exchange_API.exchange_manager as exchange_manager  # Exchange class manager
 
@@ -74,7 +75,7 @@ def print_values(file, dict):
 if __name__ == "__main__":
     log_folder = "./logs/"
     output_file = log_folder + util.get_formatted_date() + "_stats.csv"
-    current_day = util.get_current_day()
+    current_day = datetime.datetime.today().date()
 
     ETH_price_dict = dict()
     ETH_bid_dict = dict()
@@ -94,9 +95,9 @@ if __name__ == "__main__":
 
     while(True):
         # Open a new file every new day start
-        if(current_day < util.get_current_day()):
+        if(current_day < datetime.datetime.today().date()):
             # Current day is a new day now
-            current_day = util.get_current_day()
+            current_day = datetime.datetime.today().date()
 
             # Open the new file
             output_file = log_folder + util.get_formatted_date() + "_stats.csv"
