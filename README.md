@@ -56,7 +56,7 @@ Here's what the graph of the data from 2019-07-22 looks like:
 
 
 Features:
-* Shows all 9 exchanges data overlayed ontop of one another on a Price Vs. Time graph
+* Shows all 9 exchanges' data overlayed ontop of one another on a Price Vs. Time graph
 * Hide/show exchange series by clicking the line beside its name in the legend
 * Graph can zoom in and out
 * Timezone is in MST but can be changed by modifying the value `timezone_offset` in csv_grapher.py
@@ -70,7 +70,7 @@ In the exchange API folder are several classes encapsulated in the exchange_mana
 This "exchange dictionary" can then be used as an argument in the following functions:
 
 * get_ETH_price_dict(exchanges)
-    * Returns a dictionary where the keys are the exchange names as strings and the values are the last ETH price on the exchange
+    * Returns a dictionary where the keys are the exchange names as strings and the values are the last ETH prices on the exchanges
     
 * get_ETH_bid_dict(exchanges)
     * Returns a dictionary where the keys are the exchange names as strings and the values are the highest ETH bids on the exchanges
